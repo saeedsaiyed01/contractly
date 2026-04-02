@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Contractly — Formularios multilingües",
+    "description": "Crea y comparte formularios en inglés, español e hindi. Un enlace, respuestas claras."
+  },
+  "errors": {
+    "database": "No se puede conectar a la base de datos. Usa una URL postgresql:// de Neon en .env, ejecuta pnpm db:migrate y reinicia el servidor de desarrollo."
+  },
+  "nav": {
+    "brand": "Contractly",
+    "createForm": "Crear formulario",
+    "language": "Idioma"
+  },
+  "landing": {
+    "badge": "Gratis · EN / ES / HI",
+    "hero": {
+      "muted1": "Crea",
+      "strong1": "formularios multilingües",
+      "muted2": "—",
+      "strong2": "bonitos",
+      "muted3": ", no hojas de cálculo torpes."
+    },
+    "sub": "Un enlace para compartir. Preguntas y etiquetas en inglés, español e hindi. Sin IA en el camino de quien responde.",
+    "ctaPrimary": "Empezar",
+    "ctaSecondary": "Cómo funciona",
+    "features": [
+      {
+        "title": "De verdad multilingüe",
+        "body": "La interfaz y las etiquetas admiten EN, ES e HI para que cada persona elija su idioma."
+      },
+      {
+        "title": "Gratis y simple",
+        "body": "Borrador, publicar, recopilar. Pensado para autónomos, escuelas y equipos pequeños."
+      },
+      {
+        "title": "Tus datos",
+        "body": "Las respuestas viven en tu base de datos: exporta y copias de seguridad cuando quieras."
+      }
+    ]
+  },
+  "builder": {
+    "title": "Editor de formulario",
+    "subtitle": "Añade campos, escribe etiquetas con el selector de idioma arriba y publica.",
+    "formTitle": "Título del formulario",
+    "formTitlePlaceholder": "p. ej. Alta de clientes",
+    "addShortText": "Texto corto",
+    "addLongText": "Párrafo",
+    "addEmail": "Correo",
+    "addMultipleChoice": "Opción múltiple",
+    "fieldLabelEn": "Etiqueta (inglés)",
+    "fieldLabelEs": "Etiqueta (español)",
+    "fieldLabelHi": "Etiqueta (hindi)",
+    "fieldLabel": "Pregunta",
+    "switchLanguageHint": "Cambia el idioma arriba para editar español o hindi.",
+    "required": "Obligatorio",
+    "publish": "Publicar",
+    "saveDraft": "Guardar borrador",
+    "backHome": "Inicio",
+    "empty": "Aún no hay campos. Añade un tipo de pregunta abajo.",
+    "option": "Opción",
+    "addOption": "Añadir opción",
+    "optionsHeading": "Opciones de respuesta",
+    "openPublicForm": "Abrir formulario público",
+    "optionLangHint": "Cambia el idioma arriba para editar español o hindi.",
+    "publishedBadge": "Publicado",
+    "copyPublicLink": "Copiar enlace público",
+    "copied": "Copiado",
+    "viewResponses": "Ver respuestas",
+    "manageForm": "Gestionar formulario",
+    "formDescription": "Descripción del formulario",
+    "formDescriptionPlaceholder": "Opcional — se muestra bajo el título en el formulario público",
+    "tabQuestions": "Preguntas",
+    "tabResponses": "Respuestas",
+    "tabManage": "Gestionar",
+    "addFieldHint": "Añadir pregunta",
+    "duplicateField": "Duplicar",
+    "deleteField": "Eliminar",
+    "moveFieldUp": "Subir",
+    "moveFieldDown": "Bajar",
+    "typeShortText": "Respuesta corta",
+    "typeLongText": "Párrafo",
+    "typeEmail": "Correo",
+    "typeMultipleChoice": "Opción múltiple",
+    "questionPlaceholder": "Pregunta"
+  },
+  "templates": {
+    "sectionTitle": "Crear un formulario nuevo",
+    "galleryHint": "Galería de plantillas",
+    "blank": "Formulario en blanco",
+    "contact": "Información de contacto",
+    "rsvp": "Confirmación de asistencia",
+    "event": "Inscripción a evento"
+  },
+  "manage": {
+    "title": "Resumen del formulario",
+    "statusDraft": "Borrador",
+    "statusPublished": "Publicado",
+    "copyLink": "Copiar enlace público",
+    "copied": "Copiado",
+    "editForm": "Editar en el editor",
+    "viewResponses": "Ver respuestas",
+    "lastSubmission": "Última respuesta",
+    "noneYet": "Todavía ninguna",
+    "publicUrl": "Enlace público",
+    "responseCount": "respuestas",
+    "shareToCollect": "Comparte el enlace de tu formulario para recibir respuestas."
+  },
+  "fill": {
+    "submit": "Enviar",
+    "required": "Obligatorio",
+    "thanks": "Gracias — hemos guardado tu respuesta.",
+    "notPublished": "Este formulario no está disponible.",
+    "pickLanguage": "Idioma"
+  },
+  "responses": {
+    "title": "Respuestas",
+    "count": "respuestas",
+    "empty": "Aún no hay respuestas.",
+    "emptyHint": "Comparte el enlace de tu formulario para recibir respuestas.",
+    "back": "Volver al formulario",
+    "labelLocale": "Mostrar etiquetas en",
+    "lastResponse": "Última respuesta",
+    "manageForm": "Gestionar formulario"
+  }
+}

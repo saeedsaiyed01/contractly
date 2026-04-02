@@ -1,0 +1,125 @@
+{
+  "meta": {
+    "title": "Contractly — Multilingual forms",
+    "description": "Build and share forms in English, Spanish, and Hindi. One link, clear responses."
+  },
+  "errors": {
+    "database": "Database unreachable. Use a Neon postgresql:// URL in .env, run pnpm db:migrate, and restart the dev server."
+  },
+  "nav": {
+    "brand": "Contractly",
+    "createForm": "Create form",
+    "language": "Language"
+  },
+  "landing": {
+    "badge": "Free · EN / ES / HI",
+    "hero": {
+      "muted1": "Create",
+      "strong1": "beautiful",
+      "muted2": "multilingual forms —",
+      "strong2": "not",
+      "muted3": "clunky spreadsheets."
+    },
+    "sub": "One shareable link. Questions and labels in English, Spanish, and Hindi. No AI in your respondents' way.",
+    "ctaPrimary": "Get started",
+    "ctaSecondary": "How it works",
+    "features": [
+      {
+        "title": "Truly multilingual",
+        "body": "App UI and field labels support EN, ES, and HI so your audience picks what fits."
+      },
+      {
+        "title": "Free & simple",
+        "body": "Draft, publish, collect. Built for freelancers, schools, and small teams."
+      },
+      {
+        "title": "You own the data",
+        "body": "Responses live in your database — export and backups when you need them."
+      }
+    ]
+  },
+  "builder": {
+    "title": "Form builder",
+    "subtitle": "Add fields, set labels using the language switch above, then publish.",
+    "formTitle": "Form title",
+    "formTitlePlaceholder": "e.g. Client intake",
+    "addShortText": "Short text",
+    "addLongText": "Paragraph",
+    "addEmail": "Email",
+    "addMultipleChoice": "Multiple choice",
+    "fieldLabelEn": "Label (English)",
+    "fieldLabelEs": "Label (Spanish)",
+    "fieldLabelHi": "Label (Hindi)",
+    "fieldLabel": "Question",
+    "switchLanguageHint": "Switch language above to edit Spanish or Hindi text.",
+    "required": "Required",
+    "publish": "Publish",
+    "saveDraft": "Save draft",
+    "backHome": "Home",
+    "empty": "No fields yet. Add a question type below.",
+    "option": "Option",
+    "addOption": "Add option",
+    "optionsHeading": "Answer options",
+    "openPublicForm": "Open public form",
+    "optionLangHint": "Switch language above to edit Spanish or Hindi text.",
+    "publishedBadge": "Published",
+    "copyPublicLink": "Copy public link",
+    "copied": "Copied",
+    "viewResponses": "View responses",
+    "manageForm": "Manage form",
+    "formDescription": "Form description",
+    "formDescriptionPlaceholder": "Optional — shown under the title on the public form",
+    "tabQuestions": "Questions",
+    "tabResponses": "Responses",
+    "tabManage": "Manage",
+    "addFieldHint": "Add question",
+    "duplicateField": "Duplicate",
+    "deleteField": "Delete",
+    "moveFieldUp": "Move up",
+    "moveFieldDown": "Move down",
+    "typeShortText": "Short answer",
+    "typeLongText": "Paragraph",
+    "typeEmail": "Email",
+    "typeMultipleChoice": "Multiple choice",
+    "questionPlaceholder": "Question"
+  },
+  "templates": {
+    "sectionTitle": "Start a new form",
+    "galleryHint": "Template gallery",
+    "blank": "Blank form",
+    "contact": "Contact information",
+    "rsvp": "RSVP",
+    "event": "Event registration"
+  },
+  "manage": {
+    "title": "Form overview",
+    "statusDraft": "Draft",
+    "statusPublished": "Published",
+    "copyLink": "Copy public link",
+    "copied": "Copied",
+    "editForm": "Edit in builder",
+    "viewResponses": "View responses",
+    "lastSubmission": "Last submission",
+    "noneYet": "None yet",
+    "publicUrl": "Public link",
+    "responseCount": "responses",
+    "shareToCollect": "Share your form link to collect responses."
+  },
+  "fill": {
+    "submit": "Submit",
+    "required": "Required",
+    "thanks": "Thanks — your response was recorded.",
+    "notPublished": "This form is not available.",
+    "pickLanguage": "Language"
+  },
+  "responses": {
+    "title": "Responses",
+    "count": "responses",
+    "empty": "No responses yet.",
+    "emptyHint": "Share your form link to collect responses.",
+    "back": "Back to form",
+    "labelLocale": "Show labels in",
+    "lastResponse": "Last response",
+    "manageForm": "Manage form"
+  }
+}
