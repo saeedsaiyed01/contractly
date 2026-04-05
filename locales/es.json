@@ -9,7 +9,15 @@
   "nav": {
     "brand": "Contractly",
     "createForm": "Crear formulario",
+    "myForms": "Mis formularios",
     "language": "Idioma"
+  },
+  "dashboard": {
+    "title": "Tus formularios",
+    "subtitle": "Abre un formulario para administrar, editar o ver respuestas.",
+    "newForm": "Nuevo formulario",
+    "empty": "Aún no hay formularios. Crea uno para empezar.",
+    "updated": "Actualizado"
   },
   "landing": {
     "badge": "Gratis · EN / ES / HI",
@@ -21,8 +29,46 @@
       "muted3": ", no hojas de cálculo torpes."
     },
     "sub": "Un enlace para compartir. Preguntas y etiquetas en inglés, español e hindi. Sin IA en el camino de quien responde.",
+    "heroLine2": "De un lienzo vacío a un formulario en vivo en minutos — y las respuestas en un solo sitio.",
+    "trustStrip": "Acceso seguro · Exportar CSV y JSON · Tu propia base de datos",
     "ctaPrimary": "Empezar",
     "ctaSecondary": "Cómo funciona",
+    "howTitle": "Cómo funciona",
+    "howSub": "Un camino claro de la idea a las respuestas — sin caos de hojas de cálculo.",
+    "steps": [
+      {
+        "title": "Empieza con una plantilla",
+        "body": "Elige contacto, RSVP, evento o un formulario en blanco — y adáptalo en el editor visual."
+      },
+      {
+        "title": "Escribe en tres idiomas",
+        "body": "Cambia EN / ES / HI al editar etiquetas para que cada pregunta suene natural."
+      },
+      {
+        "title": "Publica un solo enlace",
+        "body": "Sal en vivo con una URL. Quien responde elige idioma; tú no estorbas."
+      },
+      {
+        "title": "Recopila y exporta",
+        "body": "Revisa envíos en tu panel, descarga CSV o JSON, duplica o despublica cuando quieras."
+      }
+    ],
+    "highlightsTitle": "Todo en una superficie serena",
+    "highlights": [
+      {
+        "title": "Tipos de campo para la vida real",
+        "body": "Texto, correo, números, fechas y opción múltiple — con validación al enviar."
+      },
+      {
+        "title": "Propiedad por diseño",
+        "body": "Quien crea sesión es dueño del formulario; el enlace público solo recibe respuestas."
+      },
+      {
+        "title": "Interfaz oscura cuidada",
+        "body": "Tipografía legible, espacio generoso y un editor que se siente intencional."
+      }
+    ],
+    "featuresTitle": "Por qué eligen Contractly",
     "features": [
       {
         "title": "De verdad multilingüe",
@@ -36,7 +82,21 @@
         "title": "Tus datos",
         "body": "Las respuestas viven en tu base de datos: exporta y copias de seguridad cuando quieras."
       }
-    ]
+    ],
+    "bottomCtaTitle": "¿Listo para respuestas más claras?",
+    "bottomCtaBody": "Crea un formulario, publica cuando te convenga y comparte el enlace donde esté tu audiencia.",
+    "bottomCtaButton": "Crea tu primer formulario"
+  },
+  "footer": {
+    "tagline": "Formularios multilingües con un solo enlace — pensados para personas, no para bots.",
+    "colProduct": "Producto",
+    "linkCreate": "Crear formulario",
+    "linkDashboard": "Panel",
+    "linkFeatures": "Funciones",
+    "colAccount": "Cuenta",
+    "linkSignIn": "Iniciar sesión",
+    "linkSignUp": "Registrarse",
+    "copyright": "Todos los derechos reservados."
   },
   "builder": {
     "title": "Editor de formulario",
@@ -47,6 +107,8 @@
     "addLongText": "Párrafo",
     "addEmail": "Correo",
     "addMultipleChoice": "Opción múltiple",
+    "addNumber": "Número",
+    "addDate": "Fecha",
     "fieldLabelEn": "Etiqueta (inglés)",
     "fieldLabelEs": "Etiqueta (español)",
     "fieldLabelHi": "Etiqueta (hindi)",
@@ -81,6 +143,8 @@
     "typeLongText": "Párrafo",
     "typeEmail": "Correo",
     "typeMultipleChoice": "Opción múltiple",
+    "typeNumber": "Número",
+    "typeDate": "Fecha",
     "questionPlaceholder": "Pregunta"
   },
   "templates": {
@@ -103,7 +167,13 @@
     "noneYet": "Todavía ninguna",
     "publicUrl": "Enlace público",
     "responseCount": "respuestas",
-    "shareToCollect": "Comparte el enlace de tu formulario para recibir respuestas."
+    "shareToCollect": "Comparte el enlace de tu formulario para recibir respuestas.",
+    "deleteForm": "Eliminar formulario",
+    "confirmDelete": "¿Eliminar este formulario y todas las respuestas? No se puede deshacer.",
+    "unpublish": "Despublicar",
+    "confirmUnpublish": "¿Despublicar? El enlace público dejará de funcionar hasta que vuelvas a publicar.",
+    "duplicateForm": "Duplicar formulario",
+    "dangerZone": "Zona de peligro"
   },
   "fill": {
     "submit": "Enviar",
@@ -120,6 +190,8 @@
     "back": "Volver al formulario",
     "labelLocale": "Mostrar etiquetas en",
     "lastResponse": "Última respuesta",
-    "manageForm": "Gestionar formulario"
+    "manageForm": "Gestionar formulario",
+    "downloadCsv": "Descargar CSV",
+    "downloadJson": "Descargar JSON"
   }
 }

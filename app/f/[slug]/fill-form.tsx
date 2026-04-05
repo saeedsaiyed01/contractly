@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 export function FillForm({ form }: { form: BuilderForm }) {
   const [lang, setLang] = useState<AppLocale>("en");
   const [answers, setAnswers] = useState<Record<string, string | number>>({});
+  const [honeypot, setHoneypot] = useState("");
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
@@ -37,6 +38,7 @@ export function FillForm({ form }: { form: BuilderForm }) {
           formId: form.id,
           answers: answers as Record<string, unknown>,
           respondentLocale: lang,
+          _website: honeypot,
         });
         setDone(true);
       } catch (e) {
@@ -54,7 +56,7 @@ export function FillForm({ form }: { form: BuilderForm }) {
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-12">
+    <div className="relative mx-auto max-w-lg px-4 py-12">
       <div className="mb-8 flex items-center justify-between gap-4">
         <div className="min-w-0 flex-1">
           <h1 className="font-serif text-2xl tracking-tight">{form.title}</h1>
@@ -86,6 +88,20 @@ export function FillForm({ form }: { form: BuilderForm }) {
           {error}
         </p>
       )}
+
+      <div
+        className="pointer-events-none absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden opacity-0"
+        aria-hidden
+      >
+        <label htmlFor="fill-website-hp">Website</label>
+        <input
+          id="fill-website-hp"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
 
       <div className="space-y-8">
         {form.fields.map((field) => {
@@ -123,6 +139,39 @@ export function FillForm({ form }: { form: BuilderForm }) {
                     "placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50",
                     "dark:bg-input/30",
                   )}
+                  value={typeof answers[id] === "string" ? answers[id] : ""}
+                  onChange={(e) => setText(id, e.target.value)}
+                />
+              )}
+              {field.type === "number" && (
+                <Input
+                  id={id}
+                  type="number"
+                  step="any"
+                  value={
+                    answers[id] === undefined ? "" : String(answers[id])
+                  }
+                  onChange={(e) => {
+                    const raw = e.target.value;
+                    if (raw === "" || raw === "-") {
+                      setAnswers((a) => {
+                        const next = { ...a };
+                        delete next[id];
+                        return next;
+                      });
+                      return;
+                    }
+                    const n = Number(raw);
+                    if (Number.isFinite(n)) {
+                      setAnswers((a) => ({ ...a, [id]: n }));
+                    }
+                  }}
+                />
+              )}
+              {field.type === "date" && (
+                <Input
+                  id={id}
+                  type="date"
                   value={typeof answers[id] === "string" ? answers[id] : ""}
                   onChange={(e) => setText(id, e.target.value)}
                 />

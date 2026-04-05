@@ -9,7 +9,15 @@
   "nav": {
     "brand": "Contractly",
     "createForm": "Create form",
+    "myForms": "My forms",
     "language": "Language"
+  },
+  "dashboard": {
+    "title": "Your forms",
+    "subtitle": "Open a form to manage, edit, or view responses.",
+    "newForm": "New form",
+    "empty": "No forms yet. Create one to get started.",
+    "updated": "Updated"
   },
   "landing": {
     "badge": "Free · EN / ES / HI",
@@ -21,8 +29,46 @@
       "muted3": "clunky spreadsheets."
     },
     "sub": "One shareable link. Questions and labels in English, Spanish, and Hindi. No AI in your respondents' way.",
+    "heroLine2": "From a blank canvas to a live form in minutes — then watch responses land in one place.",
+    "trustStrip": "Secure sign-in · CSV & JSON export · Your own database",
     "ctaPrimary": "Get started",
     "ctaSecondary": "How it works",
+    "howTitle": "How it works",
+    "howSub": "A calm path from idea to answers — no spreadsheet chaos.",
+    "steps": [
+      {
+        "title": "Start from a template",
+        "body": "Choose contact, RSVP, event, or a blank form — then shape it in the visual builder."
+      },
+      {
+        "title": "Write in three languages",
+        "body": "Switch EN / ES / HI while editing labels so every question reads naturally in each language."
+      },
+      {
+        "title": "Publish one link",
+        "body": "Go live with a single URL. Respondents pick their language; you stay out of their way."
+      },
+      {
+        "title": "Collect and export",
+        "body": "Review submissions in your dashboard, download CSV or JSON, duplicate or unpublish anytime."
+      }
+    ],
+    "highlightsTitle": "Everything in one calm surface",
+    "highlights": [
+      {
+        "title": "Field types that fit real life",
+        "body": "Text, email, numbers, dates, and multiple choice — with validation on submit."
+      },
+      {
+        "title": "Ownership by design",
+        "body": "Signed-in builders own their forms; public links stay open only for responses."
+      },
+      {
+        "title": "Polished dark UI",
+        "body": "Readable typography, generous spacing, and a builder that feels intentional — not generic."
+      }
+    ],
+    "featuresTitle": "Why teams pick Contractly",
     "features": [
       {
         "title": "Truly multilingual",
@@ -36,7 +82,21 @@
         "title": "You own the data",
         "body": "Responses live in your database — export and backups when you need them."
       }
-    ]
+    ],
+    "bottomCtaTitle": "Ready to collect clearer answers?",
+    "bottomCtaBody": "Create a form, publish when it feels right, and share the link wherever your audience is.",
+    "bottomCtaButton": "Create your first form"
+  },
+  "footer": {
+    "tagline": "Multilingual forms with a single shareable link — built for humans, not bots.",
+    "colProduct": "Product",
+    "linkCreate": "Create a form",
+    "linkDashboard": "Dashboard",
+    "linkFeatures": "Features",
+    "colAccount": "Account",
+    "linkSignIn": "Sign in",
+    "linkSignUp": "Sign up",
+    "copyright": "All rights reserved."
   },
   "builder": {
     "title": "Form builder",
@@ -47,6 +107,8 @@
     "addLongText": "Paragraph",
     "addEmail": "Email",
     "addMultipleChoice": "Multiple choice",
+    "addNumber": "Number",
+    "addDate": "Date",
     "fieldLabelEn": "Label (English)",
     "fieldLabelEs": "Label (Spanish)",
     "fieldLabelHi": "Label (Hindi)",
@@ -81,6 +143,8 @@
     "typeLongText": "Paragraph",
     "typeEmail": "Email",
     "typeMultipleChoice": "Multiple choice",
+    "typeNumber": "Number",
+    "typeDate": "Date",
     "questionPlaceholder": "Question"
   },
   "templates": {
@@ -103,7 +167,13 @@
     "noneYet": "None yet",
     "publicUrl": "Public link",
     "responseCount": "responses",
-    "shareToCollect": "Share your form link to collect responses."
+    "shareToCollect": "Share your form link to collect responses.",
+    "deleteForm": "Delete form",
+    "confirmDelete": "Delete this form and all responses? This cannot be undone.",
+    "unpublish": "Unpublish",
+    "confirmUnpublish": "Unpublish? The public link will stop working until you publish again.",
+    "duplicateForm": "Duplicate form",
+    "dangerZone": "Danger zone"
   },
   "fill": {
     "submit": "Submit",
@@ -120,6 +190,8 @@
     "back": "Back to form",
     "labelLocale": "Show labels in",
     "lastResponse": "Last response",
-    "manageForm": "Manage form"
+    "manageForm": "Manage form",
+    "downloadCsv": "Download CSV",
+    "downloadJson": "Download JSON"
   }
 }
