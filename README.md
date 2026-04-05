@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Contractly
 
-## Getting Started
+Multilingual form builder: draft in the app, publish a shareable link, collect responses in your own PostgreSQL database. Sign-in is powered by [Clerk](https://clerk.com).
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js 16 (App Router), React 19, TypeScript
+- PostgreSQL + Prisma
+- Clerk authentication
+- Tailwind CSS 4, shadcn-style UI
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Prerequisites
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Node.js 20+
+- pnpm 10+
+- A PostgreSQL database (e.g. [Neon](https://neon.tech))
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setup
 
-## Learn More
+1. **Clone and install**
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   pnpm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Environment**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   Copy `.env.example` to `.env` and set:
 
-## Deploy on Vercel
+   - `DATABASE_URL` — Postgres connection string (`postgresql://…`, not `prisma+postgres://` for the app runtime).
+   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` from the [Clerk dashboard](https://dashboard.clerk.com/) (or use Clerk keyless dev mode locally).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   Optional Clerk URLs (defaults match this repo):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   - `NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in`
+   - `NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up`
+   - `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/forms/new`
+
+3. **Database**
+
+   ```bash
+   pnpm db:migrate:dev
+   ```
+
+4. **Run**
+
+   ```bash
+   pnpm dev
+   ```
+
+   Open [http://localhost:3000](http://localhost:3000).
+
+## Scripts
+
+| Command | Description |
+|--------|-------------|
+| `pnpm dev` | Development server |
+| `pnpm build` | Production build |
+| `pnpm start` | Start production server |
+| `pnpm lint` | ESLint |
+| `pnpm test` | Vitest (unit tests) |
+| `pnpm db:migrate:dev` | Create/apply migrations (dev) |
+| `pnpm db:migrate` | Apply migrations (deploy) |
+| `pnpm db:studio` | Prisma Studio |
+
+## Features
+
+- **Dashboard** (`/dashboard`) — forms you own
+- **Templates** — blank, contact, RSVP, event
+- **Builder** — short/long text, email, number, date, multiple choice; EN / ES / HI labels
+- **Public forms** (`/f/[slug]`) — no sign-in for respondents; honeypot + in-memory rate limit on submit
+- **Manage** — publish, unpublish, duplicate, delete; CSV/JSON export of responses (`/api/forms/[formId]/export`)
+
+## Production notes
+
+- Submit rate limiting uses an **in-memory** store (fine for a single Node instance). For multiple instances, replace `lib/rate-limit.ts` with Redis (e.g. Upstash).
+- If you add **webhook** routes under `/api/...` that must not require a user session, add their paths to the public matcher in `proxy.ts`.
+
+## License
+
+Private / your terms.
