@@ -1,3 +1,4 @@
+import { auth } from "@clerk/nextjs/server";
 import { notFound } from "next/navigation";
 
 import { ResponsesView } from "@/app/forms/[formId]/responses/responses-view";
@@ -8,11 +9,12 @@ export default async function ResponsesPage({
 }: {
   params: Promise<{ formId: string }>;
 }) {
+  const { userId } = await auth();
   const { formId } = await params;
-  const form = await getFormForBuilder(formId);
+  const form = await getFormForBuilder(formId, userId);
   if (!form) notFound();
 
-  const rows = await listSubmissions(formId);
+  const rows = await listSubmissions(formId, userId);
   const serialized = rows.map((s) => ({
     id: s.id,
     createdAt: s.createdAt.toISOString(),

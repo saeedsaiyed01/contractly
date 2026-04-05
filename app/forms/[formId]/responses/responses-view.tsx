@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+import { AuthControls } from "@/components/auth/auth-controls";
 import { CopyPublicLinkButton } from "@/components/forms/copy-public-link-button";
 import { buttonVariants } from "@/components/ui/button";
 import type { BuilderForm } from "@/lib/forms";
@@ -45,6 +46,7 @@ export function ResponsesView({
 
   const [origin, setOrigin] = useState("");
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only public URL
     setOrigin(window.location.origin);
   }, []);
   const publicUrl =
@@ -78,7 +80,8 @@ export function ResponsesView({
             </p>
           </div>
           <div className="flex flex-col items-end gap-2 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <AuthControls locale={lang} />
               <label className="sr-only" htmlFor="responses-lang">
                 {t.responses.labelLocale}
               </label>
@@ -129,6 +132,27 @@ export function ResponsesView({
                   {t.builder.openPublicForm}
                 </Link>
               )}
+              <a
+                href={`/api/forms/${form.id}/export`}
+                download
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "border-emerald-500/30 bg-emerald-950/20 text-emerald-200 hover:bg-emerald-950/40",
+                )}
+              >
+                {t.responses.downloadCsv}
+              </a>
+              <a
+                href={`/api/forms/${form.id}/export?format=json`}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "border-white/15 bg-zinc-950/80 text-zinc-100",
+                )}
+              >
+                {t.responses.downloadJson}
+              </a>
             </div>
           </div>
         </div>

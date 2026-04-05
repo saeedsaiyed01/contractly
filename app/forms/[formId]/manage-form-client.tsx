@@ -1,11 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState, useTransition } from "react";
 
+import {
+  deleteFormAction,
+  duplicateFormAction,
+  unpublishFormAction,
+} from "@/app/actions/forms";
+import { AuthControls } from "@/components/auth/auth-controls";
 import { CopyPublicLinkButton } from "@/components/forms/copy-public-link-button";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { getTranslations } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { AppLocale } from "@/types/form";
@@ -29,8 +36,11 @@ export function ManageFormClient({
 }) {
   const [lang, setLang] = useState<AppLocale>("en");
   const t = useMemo(() => getTranslations(lang), [lang]);
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
   const [origin, setOrigin] = useState("");
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- client-only public URL
     setOrigin(window.location.origin);
   }, []);
 
@@ -56,7 +66,8 @@ export function ManageFormClient({
           >
             ← {t.nav.brand}
           </Link>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <AuthControls locale={lang} />
             <label className="sr-only" htmlFor="manage-lang">
               {t.nav.language}
             </label>
@@ -154,6 +165,72 @@ export function ManageFormClient({
               {t.builder.openPublicForm}
             </Link>
           ) : null}
+        </div>
+
+        <div className="mt-10 border-t border-white/10 pt-8">
+          <p className="mb-3 font-sans text-xs font-medium uppercase tracking-wide text-zinc-500">
+            {t.manage.dangerZone}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="border-white/15 bg-zinc-950/80 text-zinc-100"
+              disabled={pending}
+              onClick={() => {
+                startTransition(async () => {
+                  try {
+                    await duplicateFormAction(form.id);
+                  } catch (e) {
+                    console.error(e);
+                  }
+                });
+              }}
+            >
+              {t.manage.duplicateForm}
+            </Button>
+            {form.status === "published" ? (
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="border-amber-500/30 bg-amber-950/20 text-amber-200 hover:bg-amber-950/40"
+                disabled={pending}
+                onClick={() => {
+                  if (!confirm(t.manage.confirmUnpublish)) return;
+                  startTransition(async () => {
+                    try {
+                      await unpublishFormAction(form.id);
+                      router.refresh();
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  });
+                }}
+              >
+                {t.manage.unpublish}
+              </Button>
+            ) : null}
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              disabled={pending}
+              onClick={() => {
+                if (!confirm(t.manage.confirmDelete)) return;
+                startTransition(async () => {
+                  try {
+                    await deleteFormAction(form.id);
+                  } catch (e) {
+                    console.error(e);
+                  }
+                });
+              }}
+            >
+              {t.manage.deleteForm}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
