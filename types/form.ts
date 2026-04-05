@@ -2,7 +2,13 @@ export type AppLocale = "en" | "es" | "hi";
 
 export const APP_LOCALES: AppLocale[] = ["en", "es", "hi"];
 
-export type QuestionType = "short_text" | "long_text" | "email" | "multiple_choice";
+export type QuestionType =
+  | "short_text"
+  | "long_text"
+  | "email"
+  | "multiple_choice"
+  | "number"
+  | "date";
 
 export type FormStatus = "draft" | "published";
 

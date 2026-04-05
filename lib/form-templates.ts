@@ -55,8 +55,9 @@ export function getTemplateFields(templateId: TemplateId): FormFieldDraft[] {
       return [
         draft(0, "short_text", "Full name", true),
         draft(1, "email", "Email", true),
-        draft(2, "short_text", "Phone", false),
-        draft(3, "long_text", "Message", false),
+        draft(2, "number", "Party size", false),
+        draft(3, "short_text", "Phone", false),
+        draft(4, "long_text", "Message", false),
       ];
     case "rsvp":
       return [
@@ -72,9 +73,10 @@ export function getTemplateFields(templateId: TemplateId): FormFieldDraft[] {
       return [
         draft(0, "short_text", "Full name", true),
         draft(1, "email", "Email", true),
-        draft(2, "short_text", "Company / organization", false),
+        draft(2, "date", "Preferred date", false),
+        draft(3, "short_text", "Company / organization", false),
         draft(
-          3,
+          4,
           "multiple_choice",
           "Preferred session",
           true,

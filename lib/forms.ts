@@ -84,15 +84,54 @@ function mapField(row: {
   };
 }
 
-export async function createDraftForm() {
+export async function createDraftForm(ownerId: string) {
   return db.form.create({
-    data: { title: "Untitled form", status: "draft" },
+    data: { title: "Untitled form", status: "draft", ownerId },
   });
 }
 
-export async function getFormForBuilder(formId: string): Promise<BuilderForm | null> {
-  const form = await db.form.findUnique({
-    where: { id: formId },
+export type FormListRow = {
+  id: string;
+  title: string;
+  status: "draft" | "published";
+  slug: string | null;
+  updatedAt: Date;
+  submissionCount: number;
+};
+
+export async function listFormsForOwner(
+  userId: string | null,
+): Promise<FormListRow[]> {
+  if (!userId) return [];
+  const rows = await db.form.findMany({
+    where: { ownerId: userId },
+    orderBy: { updatedAt: "desc" },
+    select: {
+      id: true,
+      title: true,
+      status: true,
+      slug: true,
+      updatedAt: true,
+      _count: { select: { submissions: true } },
+    },
+  });
+  return rows.map((r) => ({
+    id: r.id,
+    title: r.title,
+    status: r.status,
+    slug: r.slug,
+    updatedAt: r.updatedAt,
+    submissionCount: r._count.submissions,
+  }));
+}
+
+export async function getFormForBuilder(
+  formId: string,
+  userId: string | null,
+): Promise<BuilderForm | null> {
+  if (!userId) return null;
+  const form = await db.form.findFirst({
+    where: { id: formId, ownerId: userId },
     include: { fields: { orderBy: { sortOrder: "asc" } } },
   });
   if (!form) return null;
@@ -107,6 +146,7 @@ export async function getFormForBuilder(formId: string): Promise<BuilderForm | n
 }
 
 export async function saveDraftForm(
+  userId: string,
   formId: string,
   title: string,
   description: LocalizedString,
@@ -114,6 +154,7 @@ export async function saveDraftForm(
 ): Promise<BuilderForm> {
   const form = await db.form.findUnique({ where: { id: formId } });
   if (!form) throw new Error("Form not found");
+  if (form.ownerId !== userId) throw new Error("Forbidden");
   if (form.status !== "draft") throw new Error("Only drafts can be edited");
 
   const { title: safeTitle, description: safeDescription } = normalizeDraftMeta(
@@ -155,7 +196,7 @@ export async function saveDraftForm(
     }
   });
 
-  const next = await getFormForBuilder(formId);
+  const next = await getFormForBuilder(formId, userId);
   if (!next) throw new Error("Form missing after save");
   return next;
 }
@@ -169,11 +210,15 @@ async function uniqueSlug(): Promise<string> {
   return nanoid(16);
 }
 
-export async function publishForm(formId: string): Promise<BuilderForm> {
+export async function publishForm(
+  formId: string,
+  userId: string,
+): Promise<BuilderForm> {
   const form = await db.form.findUnique({ where: { id: formId } });
   if (!form) throw new Error("Form not found");
+  if (form.ownerId !== userId) throw new Error("Forbidden");
   if (form.status === "published") {
-    const next = await getFormForBuilder(formId);
+    const next = await getFormForBuilder(formId, userId);
     if (!next) throw new Error("Form not found");
     return next;
   }
@@ -187,7 +232,7 @@ export async function publishForm(formId: string): Promise<BuilderForm> {
     data: { status: "published", slug },
   });
 
-  const next = await getFormForBuilder(formId);
+  const next = await getFormForBuilder(formId, userId);
   if (!next) throw new Error("Form not found");
   return next;
 }
@@ -226,6 +271,8 @@ export async function submitResponse(input: {
     }
   }
 
+  const isoDate = /^\d{4}-\d{2}-\d{2}$/;
+
   for (const field of form.fields) {
     if (!field.required) continue;
     const v = input.answers[field.id];
@@ -238,6 +285,15 @@ export async function submitResponse(input: {
       if (len === 0 || v >= len) {
         throw new Error(`Invalid choice for field ${field.id}`);
       }
+    } else if (field.type === "number") {
+      const n = typeof v === "number" ? v : Number(v);
+      if (!Number.isFinite(n)) {
+        throw new Error(`Missing answer for field ${field.id}`);
+      }
+    } else if (field.type === "date") {
+      if (typeof v !== "string" || !isoDate.test(v.trim())) {
+        throw new Error(`Missing answer for field ${field.id}`);
+      }
     } else {
       if (typeof v !== "string" || v.trim() === "") {
         throw new Error(`Missing answer for field ${field.id}`);
@@ -249,9 +305,34 @@ export async function submitResponse(input: {
     Object.entries(input.answers).filter(([, v]) => {
       if (v === undefined || v === null) return false;
       if (typeof v === "string" && v.trim() === "") return false;
+      if (typeof v === "number" && !Number.isFinite(v)) return false;
       return true;
     }),
   );
+
+  const isoDateRe = /^\d{4}-\d{2}-\d{2}$/;
+  for (const field of form.fields) {
+    const v = cleaned[field.id];
+    if (v === undefined) continue;
+    if (field.type === "number") {
+      const n = typeof v === "number" ? v : Number(v);
+      if (!Number.isFinite(n)) {
+        throw new Error("Invalid field value");
+      }
+      cleaned[field.id] = n;
+    } else if (field.type === "date") {
+      if (typeof v !== "string" || !isoDateRe.test(v.trim())) {
+        throw new Error("Invalid field value");
+      }
+    } else if (field.type === "multiple_choice") {
+      if (typeof v !== "number" || v < 0 || !Number.isInteger(v)) {
+        throw new Error("Invalid field value");
+      }
+      const raw = field.optionsJson;
+      const len = Array.isArray(raw) ? raw.length : 0;
+      if (v >= len) throw new Error("Invalid field value");
+    }
+  }
 
   await db.submission.create({
     data: {
@@ -267,7 +348,13 @@ export async function submitResponse(input: {
   });
 }
 
-export async function listSubmissions(formId: string) {
+export async function listSubmissions(formId: string, userId: string | null) {
+  if (!userId) return [];
+  const owned = await db.form.findFirst({
+    where: { id: formId, ownerId: userId },
+    select: { id: true },
+  });
+  if (!owned) return [];
   return db.submission.findMany({
     where: { formId },
     orderBy: { createdAt: "desc" },
@@ -275,4 +362,60 @@ export async function listSubmissions(formId: string) {
       answers: true,
     },
   });
+}
+
+export async function deleteForm(formId: string, userId: string): Promise<void> {
+  const form = await db.form.findUnique({ where: { id: formId } });
+  if (!form) throw new Error("Form not found");
+  if (form.ownerId !== userId) throw new Error("Forbidden");
+  await db.form.delete({ where: { id: formId } });
+}
+
+/** Move published form back to draft; clears public slug so the old link stops working. */
+export async function unpublishForm(
+  formId: string,
+  userId: string,
+): Promise<BuilderForm> {
+  const form = await db.form.findUnique({ where: { id: formId } });
+  if (!form) throw new Error("Form not found");
+  if (form.ownerId !== userId) throw new Error("Forbidden");
+  if (form.status !== "published") {
+    const next = await getFormForBuilder(formId, userId);
+    if (!next) throw new Error("Form not found");
+    return next;
+  }
+  await db.form.update({
+    where: { id: formId },
+    data: { status: "draft", slug: null },
+  });
+  const next = await getFormForBuilder(formId, userId);
+  if (!next) throw new Error("Form not found");
+  return next;
+}
+
+/** Copy form definition into a new draft owned by the same user. */
+export async function duplicateForm(
+  formId: string,
+  userId: string,
+): Promise<{ newFormId: string }> {
+  const source = await getFormForBuilder(formId, userId);
+  if (!source) throw new Error("Form not found");
+
+  const draft = await createDraftForm(userId);
+  const copyTitle =
+    source.title.trim() === "" || source.title === "Untitled form"
+      ? "Untitled form (copy)"
+      : `${source.title} (copy)`;
+
+  const fieldsCopy: FormFieldDraft[] = source.fields.map((f, i) => ({
+    clientId: nanoid(),
+    sortOrder: i,
+    type: f.type,
+    required: f.required,
+    label: { ...f.label },
+    options: f.options?.map((o) => ({ ...o })),
+  }));
+
+  await saveDraftForm(userId, draft.id, copyTitle, source.description, fieldsCopy);
+  return { newFormId: draft.id };
 }
