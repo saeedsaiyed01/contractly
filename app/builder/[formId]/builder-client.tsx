@@ -12,17 +12,20 @@ import {
 } from "react";
 import {
   AlignLeft,
+  Calendar,
   ChevronDown,
   ChevronUp,
   CircleDot,
   Copy,
   GripVertical,
+  Hash,
   Mail,
   Trash2,
   Type,
 } from "lucide-react";
 
 import { publishFormAction, saveDraftAction } from "@/app/actions/forms";
+import { AuthControls } from "@/components/auth/auth-controls";
 import { CopyPublicLinkButton } from "@/components/forms/copy-public-link-button";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -50,6 +53,10 @@ function fieldTypeLabel(
       return t.builder.typeEmail;
     case "multiple_choice":
       return t.builder.typeMultipleChoice;
+    case "number":
+      return t.builder.typeNumber;
+    case "date":
+      return t.builder.typeDate;
   }
 }
 
@@ -115,13 +122,18 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
   }, [initial, hydrate]);
 
   useEffect(() => {
+    // Client-only share URL base; no SSR value for window.location
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- sync origin after mount
     setOrigin(window.location.origin);
   }, []);
 
   useEffect(() => {
     if (fields.length > prevFieldCount.current) {
       const last = fields[fields.length - 1];
-      if (last) setActiveFieldClientId(last.clientId);
+      if (last) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- focus newly added field
+        setActiveFieldClientId(last.clientId);
+      }
     }
     prevFieldCount.current = fields.length;
   }, [fields]);
@@ -150,6 +162,16 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
       type: "multiple_choice",
       label: t.builder.addMultipleChoice,
       icon: <CircleDot className="size-5" strokeWidth={1.75} />,
+    },
+    {
+      type: "number",
+      label: t.builder.addNumber,
+      icon: <Hash className="size-5" strokeWidth={1.75} />,
+    },
+    {
+      type: "date",
+      label: t.builder.addDate,
+      icon: <Calendar className="size-5" strokeWidth={1.75} />,
     },
   ];
 
@@ -234,6 +256,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
               ← {t.builder.backHome}
             </Link>
             <div className="flex flex-wrap items-center gap-2">
+              <AuthControls locale={appLanguage} />
               <label className="sr-only" htmlFor="builder-lang">
                 {t.nav.language}
               </label>
