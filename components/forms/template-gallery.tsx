@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { createFormFromTemplateAction } from "@/app/actions/forms";
+import { AuthControls } from "@/components/auth/auth-controls";
 import { Card } from "@/components/ui/card";
 import { getTranslations } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -78,7 +79,8 @@ export function TemplateGallery({ showDbError }: { showDbError?: boolean }) {
             >
               ← {t.nav.brand}
             </Link>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-2">
+              <AuthControls locale={lang} />
               <label className="sr-only" htmlFor="gallery-lang">
                 {t.nav.language}
               </label>
