@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
+import { shadcn } from "@clerk/ui/themes";
 import { Geist, JetBrains_Mono, Playfair_Display } from "next/font/google";
 
 import "./globals.css";
@@ -35,7 +37,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${jetbrainsMono.variable} ${playfair.variable} min-h-screen antialiased`}
       >
-        {children}
+        <ClerkProvider
+          appearance={{ theme: shadcn }}
+          signInUrl="/sign-in"
+          signUpUrl="/sign-up"
+        >
+          {children}
+        </ClerkProvider>
       </body>
     </html>
   );
