@@ -5,6 +5,7 @@ import { setLocalizedString } from "@/lib/builder-field-locale";
 import type {
   AppLocale,
   FormFieldDraft,
+  FormStatus,
   LocalizedString,
   QuestionType,
 } from "@/types/form";
@@ -14,6 +15,8 @@ export type BuilderState = {
   title: string;
   description: LocalizedString;
   appLanguage: AppLocale;
+  status: FormStatus;
+  slug: string | null;
   fields: FormFieldDraft[];
   hydrate: (input: {
     formId: string;
@@ -21,6 +24,8 @@ export type BuilderState = {
     description?: LocalizedString;
     fields: FormFieldDraft[];
     appLanguage?: AppLocale;
+    status?: FormStatus;
+    slug?: string | null;
   }) => void;
   setTitle: (title: string) => void;
   updateDescription: (locale: AppLocale, text: string) => void;
@@ -50,6 +55,8 @@ const empty = (): Omit<
   title: "",
   description: { en: "" },
   appLanguage: "en",
+  status: "draft",
+  slug: null,
   fields: [],
 });
 
@@ -57,13 +64,15 @@ export const useBuilderStore = create<BuilderState>((set, get) => ({
   ...empty(),
 
   hydrate: (input) =>
-    set({
+    set((s) => ({
       formId: input.formId,
       title: input.title,
       description: input.description ?? { en: "" },
       fields: input.fields,
-      appLanguage: input.appLanguage ?? "en",
-    }),
+      appLanguage: input.appLanguage ?? s.appLanguage,
+      status: input.status ?? s.status,
+      slug: input.slug !== undefined ? input.slug : s.slug,
+    })),
 
   setTitle: (title) => set({ title }),
 

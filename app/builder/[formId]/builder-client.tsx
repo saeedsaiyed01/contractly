@@ -97,6 +97,8 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
 
   const hydrate = useBuilderStore((s) => s.hydrate);
   const formId = useBuilderStore((s) => s.formId);
+  const status = useBuilderStore((s) => s.status);
+  const slug = useBuilderStore((s) => s.slug);
   const title = useBuilderStore((s) => s.title);
   const description = useBuilderStore((s) => s.description);
   const fields = useBuilderStore((s) => s.fields);
@@ -118,6 +120,8 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
       title: initial.title,
       description: initial.description,
       fields: initial.fields,
+      status: initial.status,
+      slug: initial.slug,
     });
   }, [initial, hydrate]);
 
@@ -138,9 +142,8 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
     prevFieldCount.current = fields.length;
   }, [fields]);
 
-  const isPublished = initial.status === "published";
-  const shareUrl =
-    initial.slug && origin ? `${origin}/f/${initial.slug}` : "";
+  const isPublished = status === "published";
+  const shareUrl = slug && origin ? `${origin}/f/${slug}` : "";
 
   const addTools: { type: QuestionType; label: string; icon: ReactNode }[] = [
     {
@@ -190,6 +193,8 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
           title: next.title,
           description: next.description,
           fields: next.fields,
+          status: next.status,
+          slug: next.slug,
         });
       } catch (e) {
         setError(e instanceof Error ? e.message : "Save failed");
@@ -208,6 +213,8 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
           title: next.title,
           description: next.description,
           fields: next.fields,
+          status: next.status,
+          slug: next.slug,
         });
         router.refresh();
       } catch (e) {
@@ -305,7 +312,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
             {t.builder.switchLanguageHint}
           </p>
 
-          {isPublished && initial.slug && (
+          {isPublished && slug && (
             <div className="mb-6 flex flex-col gap-3 rounded-xl border border-white/10 bg-zinc-950/60 p-4 backdrop-blur-sm">
               <div className="flex flex-wrap items-center gap-2">
                 <Badge
@@ -329,7 +336,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
                   className="border-white/15 bg-zinc-950/80 text-zinc-100 hover:bg-zinc-900"
                 />
                 <Link
-                  href={`/f/${initial.slug}`}
+                  href={`/f/${slug}`}
                   className={cn(
                     buttonVariants({ variant: "outline", size: "sm" }),
                     "border-white/15 bg-zinc-950/80 text-zinc-100 hover:bg-zinc-900",
@@ -594,7 +601,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
                 );
               })}
 
-              {isPublished && initial.slug && (
+              {isPublished && slug && (
                 <div className="flex flex-wrap gap-2 border-t border-white/10 pt-6">
                   <CopyPublicLinkButton
                     url={shareUrl}
@@ -604,7 +611,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
                     className="border-white/15 bg-zinc-950/80 text-zinc-100 hover:bg-zinc-900"
                   />
                   <Link
-                    href={`/f/${initial.slug}`}
+                    href={`/f/${slug}`}
                     className={cn(
                       buttonVariants({ variant: "outline" }),
                       "border-white/15 bg-zinc-950/80 text-zinc-100 hover:bg-zinc-900",

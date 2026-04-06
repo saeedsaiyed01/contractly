@@ -271,7 +271,7 @@ export async function submitResponse(input: {
     }
   }
 
-  const isoDate = /^\d{4}-\d{2}-\d{2}$/;
+  const isoDateRe = /^\d{4}-\d{2}-\d{2}$/;
 
   for (const field of form.fields) {
     if (!field.required) continue;
@@ -291,7 +291,7 @@ export async function submitResponse(input: {
         throw new Error(`Missing answer for field ${field.id}`);
       }
     } else if (field.type === "date") {
-      if (typeof v !== "string" || !isoDate.test(v.trim())) {
+      if (typeof v !== "string" || !isoDateRe.test(v.trim())) {
         throw new Error(`Missing answer for field ${field.id}`);
       }
     } else {
@@ -310,7 +310,6 @@ export async function submitResponse(input: {
     }),
   );
 
-  const isoDateRe = /^\d{4}-\d{2}-\d{2}$/;
   for (const field of form.fields) {
     const v = cleaned[field.id];
     if (v === undefined) continue;
