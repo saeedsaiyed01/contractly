@@ -16,7 +16,9 @@
     "title": "Tus formularios",
     "subtitle": "Abre un formulario para administrar, editar o ver respuestas.",
     "newForm": "Nuevo formulario",
-    "empty": "Aún no hay formularios. Crea uno para empezar.",
+    "empty": "Aún no hay formularios",
+    "emptyHint": "Empieza desde una plantilla o un borrador en blanco; lo que publiques aparecerá aquí.",
+    "startBlank": "Borrador en blanco",
     "updated": "Actualizado"
   },
   "landing": {

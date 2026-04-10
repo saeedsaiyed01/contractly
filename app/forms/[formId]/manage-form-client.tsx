@@ -11,6 +11,7 @@ import {
 } from "@/app/actions/forms";
 import { AuthControls } from "@/components/auth/auth-controls";
 import { CopyPublicLinkButton } from "@/components/forms/copy-public-link-button";
+import { AppDarkSurface } from "@/components/shell/app-dark-surface";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { getTranslations } from "@/lib/i18n";
@@ -49,20 +50,12 @@ export function ManageFormClient({
   const last = lastSubmissionIso ? new Date(lastSubmissionIso) : null;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-black text-zinc-100">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 30%, #4c1d95 0%, transparent 45%), radial-gradient(circle at 80% 20%, #1e3a8a 0%, transparent 40%)",
-        }}
-      />
-      <div className="relative mx-auto max-w-2xl px-4 py-10">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
+    <AppDarkSurface>
+      <div className="relative mx-auto max-w-2xl px-4 py-10 sm:py-12">
+        <div className="mb-10 flex flex-wrap items-center justify-between gap-3">
           <Link
             href="/"
-            className="font-sans text-sm text-zinc-400 hover:text-zinc-100"
+            className="font-sans text-sm text-zinc-500 transition-colors hover:text-zinc-200"
           >
             ← {t.nav.brand}
           </Link>
@@ -75,7 +68,7 @@ export function ManageFormClient({
               id="manage-lang"
               value={lang}
               onChange={(e) => setLang(e.target.value as AppLocale)}
-              className="h-9 rounded-md border border-white/10 bg-zinc-950 px-2 text-xs text-zinc-300 outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50"
+              className="select-app-dark"
               aria-label={t.nav.language}
             >
               {APP_LOCALES.map((l) => (
@@ -87,13 +80,17 @@ export function ManageFormClient({
           </div>
         </div>
 
-        <h1 className="font-serif text-2xl tracking-tight">{t.manage.title}</h1>
-        <p className="mt-2 text-lg font-medium text-zinc-200">{form.title}</p>
+        <h1 className="font-serif text-2xl tracking-tight text-white md:text-3xl">
+          {t.manage.title}
+        </h1>
+        <p className="mt-3 text-lg font-medium leading-snug text-zinc-200">
+          {form.title}
+        </p>
 
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="mt-5 flex flex-wrap items-center gap-2">
           <Badge
             variant="outline"
-            className="border-violet-500/40 bg-violet-500/10 text-violet-200"
+            className="border-violet-500/35 bg-violet-500/10 font-medium text-violet-200"
           >
             {form.status === "published"
               ? t.manage.statusPublished
@@ -118,7 +115,7 @@ export function ManageFormClient({
         <p className="mt-6 text-sm text-zinc-500">{t.manage.shareToCollect}</p>
 
         {form.status === "published" && form.slug ? (
-          <div className="mt-4 space-y-3 rounded-xl border border-white/10 bg-zinc-950/60 p-4">
+          <div className="mt-4 space-y-3 rounded-xl border border-white/[0.1] bg-zinc-950/55 p-5 shadow-inner shadow-black/20 backdrop-blur-sm">
             <p className="text-xs font-medium text-zinc-500">
               {t.manage.publicUrl}
             </p>
@@ -140,7 +137,7 @@ export function ManageFormClient({
             href={`/builder/${form.id}`}
             className={cn(
               buttonVariants({ variant: "default" }),
-              "bg-violet-600 hover:bg-violet-500",
+              "rounded-lg bg-violet-600 shadow-md shadow-violet-950/20 hover:bg-violet-500",
             )}
           >
             {t.manage.editForm}
@@ -167,7 +164,7 @@ export function ManageFormClient({
           ) : null}
         </div>
 
-        <div className="mt-10 border-t border-white/10 pt-8">
+        <div className="mt-10 border-t border-white/[0.08] pt-8">
           <p className="mb-3 font-sans text-xs font-medium uppercase tracking-wide text-zinc-500">
             {t.manage.dangerZone}
           </p>
@@ -233,6 +230,6 @@ export function ManageFormClient({
           </div>
         </div>
       </div>
-    </div>
+    </AppDarkSurface>
   );
 }
