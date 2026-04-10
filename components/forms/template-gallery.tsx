@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 
 import { createFormFromTemplateAction } from "@/app/actions/forms";
 import { AuthControls } from "@/components/auth/auth-controls";
+import { AppDarkSurface } from "@/components/shell/app-dark-surface";
 import { Card } from "@/components/ui/card";
 import { getTranslations } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
@@ -60,18 +61,9 @@ export function TemplateGallery({ showDbError }: { showDbError?: boolean }) {
   const t = useMemo(() => getTranslations(lang), [lang]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-black text-zinc-100">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 30%, #4c1d95 0%, transparent 45%), radial-gradient(circle at 80% 20%, #1e3a8a 0%, transparent 40%)",
-        }}
-      />
-
+    <AppDarkSurface>
       <div className="relative">
-        <header className="border-b border-white/10 bg-black/80 px-4 py-4 backdrop-blur-md">
+        <header className="border-b border-white/[0.08] bg-zinc-950/75 px-4 py-4 backdrop-blur-md supports-[backdrop-filter]:bg-zinc-950/55">
           <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3">
             <Link
               href="/"
@@ -88,7 +80,7 @@ export function TemplateGallery({ showDbError }: { showDbError?: boolean }) {
                 id="gallery-lang"
                 value={lang}
                 onChange={(e) => setLang(e.target.value as AppLocale)}
-                className="h-9 rounded-md border border-white/10 bg-zinc-950 px-2 py-1.5 font-sans text-xs text-zinc-300 outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50"
+                className="select-app-dark py-1.5"
                 aria-label={t.nav.language}
               >
                 {APP_LOCALES.map((l) => (
@@ -132,10 +124,10 @@ export function TemplateGallery({ showDbError }: { showDbError?: boolean }) {
                   <input type="hidden" name="templateId" value={id} />
                   <button
                     type="submit"
-                    className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                    className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
                     aria-label={title}
                   >
-                    <Card className="overflow-hidden border-white/10 bg-zinc-950/80 transition-shadow hover:border-white/20 hover:shadow-md hover:shadow-violet-500/5">
+                    <Card className="overflow-hidden border-white/[0.1] bg-zinc-950/70 shadow-sm shadow-black/20 transition-all duration-200 hover:border-violet-500/25 hover:shadow-lg hover:shadow-violet-950/15">
                       <TemplateThumbnail variant={id} />
                       <div className="border-t border-white/10 px-3 py-3 font-sans text-sm font-medium text-zinc-200">
                         {title}
@@ -148,6 +140,6 @@ export function TemplateGallery({ showDbError }: { showDbError?: boolean }) {
           </div>
         </main>
       </div>
-    </div>
+    </AppDarkSurface>
   );
 }

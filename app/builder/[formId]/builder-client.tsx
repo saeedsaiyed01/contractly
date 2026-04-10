@@ -27,6 +27,7 @@ import {
 import { publishFormAction, saveDraftAction } from "@/app/actions/forms";
 import { AuthControls } from "@/components/auth/auth-controls";
 import { CopyPublicLinkButton } from "@/components/forms/copy-public-link-button";
+import { AppDarkSurface } from "@/components/shell/app-dark-surface";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -225,7 +226,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
 
   const toolbar = (
     <div
-      className="flex flex-row items-center justify-center gap-0.5 rounded-full border border-border bg-card px-1 py-1 shadow-sm md:flex-col"
+      className="flex flex-row items-center justify-center gap-0.5 rounded-full border border-white/12 bg-zinc-950/90 px-1 py-1 shadow-lg shadow-black/30 md:flex-col"
       role="toolbar"
       aria-label={t.builder.addFieldHint}
     >
@@ -243,18 +244,9 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
   );
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-black text-zinc-100">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 30%, #4c1d95 0%, transparent 45%), radial-gradient(circle at 80% 20%, #1e3a8a 0%, transparent 40%)",
-        }}
-      />
-
+    <AppDarkSurface>
       <div className="relative">
-        <header className="sticky top-0 z-30 border-b border-white/10 bg-black/80 backdrop-blur-md">
+        <header className="sticky top-0 z-30 border-b border-white/[0.08] bg-zinc-950/75 backdrop-blur-md supports-[backdrop-filter]:bg-zinc-950/55">
           <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
             <Link
               href="/"
@@ -273,7 +265,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
                 onChange={(e) =>
                   setAppLanguage(e.target.value as typeof appLanguage)
                 }
-                className="h-9 rounded-md border border-white/10 bg-zinc-950 px-2 py-1.5 font-sans text-xs text-zinc-300 outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50"
+                className="select-app-dark py-1.5"
                 aria-label={t.nav.language}
               >
                 <option value="en">EN</option>
@@ -376,21 +368,21 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
           )}
 
           <nav
-            className="mb-6 flex gap-8 border-b border-white/10 font-sans text-sm font-medium"
+            className="mb-6 flex gap-1 border-b border-white/[0.08] font-sans text-sm font-medium sm:gap-2"
             aria-label="Form editor"
           >
-            <span className="-mb-px border-b-2 border-violet-500 pb-3 text-zinc-100">
+            <span className="-mb-px border-b-2 border-violet-400/90 pb-3 px-1 text-zinc-100">
               {t.builder.tabQuestions}
             </span>
             <Link
               href={`/forms/${formId}/responses`}
-              className="-mb-px border-b-2 border-transparent pb-3 text-zinc-500 transition-colors hover:text-zinc-200"
+              className="-mb-px border-b-2 border-transparent pb-3 px-1 text-zinc-500 transition-colors hover:border-white/10 hover:text-zinc-200"
             >
               {t.builder.tabResponses}
             </Link>
             <Link
               href={`/forms/${formId}`}
-              className="-mb-px border-b-2 border-transparent pb-3 text-zinc-500 transition-colors hover:text-zinc-200"
+              className="-mb-px border-b-2 border-transparent pb-3 px-1 text-zinc-500 transition-colors hover:border-white/10 hover:text-zinc-200"
             >
               {t.builder.tabManage}
             </Link>
@@ -647,6 +639,6 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
           </div>
         </div>
       </div>
-    </div>
+    </AppDarkSurface>
   );
 }

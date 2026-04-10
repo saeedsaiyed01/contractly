@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { AuthControls } from "@/components/auth/auth-controls";
 import { CopyPublicLinkButton } from "@/components/forms/copy-public-link-button";
+import { AppDarkSurface } from "@/components/shell/app-dark-surface";
 import { buttonVariants } from "@/components/ui/button";
 import type { BuilderForm } from "@/lib/forms";
 import { getTranslations } from "@/lib/i18n";
@@ -53,22 +54,14 @@ export function ResponsesView({
     form.slug && origin ? `${origin}/f/${form.slug}` : "";
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-black text-zinc-100">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 20% 30%, #4c1d95 0%, transparent 45%), radial-gradient(circle at 80% 20%, #1e3a8a 0%, transparent 40%)",
-        }}
-      />
-      <div className="relative mx-auto max-w-3xl px-4 py-10">
-        <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
+    <AppDarkSurface>
+      <div className="relative mx-auto max-w-3xl px-4 py-10 sm:py-12">
+        <div className="mb-10 flex flex-wrap items-start justify-between gap-4 border-b border-white/[0.08] pb-8">
           <div>
-            <h1 className="font-serif text-2xl text-zinc-100">
+            <h1 className="font-serif text-2xl tracking-tight text-white md:text-3xl">
               {t.responses.title}
             </h1>
-            <p className="text-sm text-zinc-400">{form.title}</p>
+            <p className="mt-1 text-sm text-zinc-400">{form.title}</p>
             <p className="mt-2 font-mono text-xs text-zinc-500">
               {rows.length} {t.responses.count}
               {lastAt && (
@@ -92,7 +85,7 @@ export function ResponsesView({
                 id="responses-lang"
                 value={lang}
                 onChange={(e) => setLang(e.target.value as AppLocale)}
-                className="h-9 rounded-md border border-white/10 bg-zinc-950 px-2 text-xs text-zinc-300"
+                className="select-app-dark"
                 aria-label={t.responses.labelLocale}
               >
                 {APP_LOCALES.map((l) => (
@@ -158,7 +151,7 @@ export function ResponsesView({
         </div>
 
         {rows.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-white/15 bg-zinc-950/40 px-6 py-12 text-center">
+          <div className="rounded-2xl border border-dashed border-white/[0.12] bg-zinc-950/40 px-6 py-14 text-center shadow-[inset_0_1px_0_0_rgba(255,255,255,0.04)] backdrop-blur-sm">
             <p className="font-sans text-sm text-zinc-400">
               {t.responses.empty}
             </p>
@@ -183,9 +176,9 @@ export function ResponsesView({
               return (
                 <li
                   key={s.id}
-                  className="rounded-xl border border-white/10 bg-zinc-950/60 p-4 font-sans text-sm shadow-sm backdrop-blur-sm"
+                  className="rounded-xl border border-white/[0.09] bg-zinc-950/50 p-5 font-sans text-sm shadow-md shadow-black/25 backdrop-blur-sm transition-colors hover:border-white/[0.14]"
                 >
-                  <div className="mb-3 flex flex-wrap justify-between gap-2 border-b border-white/10 pb-2 text-xs text-zinc-500">
+                  <div className="mb-4 flex flex-wrap justify-between gap-2 border-b border-white/[0.08] pb-3 text-xs text-zinc-500">
                     <span className="font-mono">{s.id.slice(0, 8)}…</span>
                     <time dateTime={created.toISOString()}>
                       {created.toLocaleString()}
@@ -223,6 +216,6 @@ export function ResponsesView({
           </ul>
         )}
       </div>
-    </div>
+    </AppDarkSurface>
   );
 }

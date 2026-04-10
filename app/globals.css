@@ -130,3 +130,11 @@
     @apply font-sans;
   }
 }
+
+@layer components {
+  /** Dark-app language & compact selects (dashboard, builder, responses, etc.) */
+  .select-app-dark {
+    @apply h-9 rounded-lg border border-white/10 bg-zinc-950/90 px-2.5 font-sans text-xs text-zinc-200 outline-none transition-colors;
+    @apply hover:border-white/16 focus-visible:border-violet-500/45 focus-visible:ring-2 focus-visible:ring-violet-500/35;
+  }
+}

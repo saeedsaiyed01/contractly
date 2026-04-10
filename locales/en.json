@@ -16,7 +16,9 @@
     "title": "Your forms",
     "subtitle": "Open a form to manage, edit, or view responses.",
     "newForm": "New form",
-    "empty": "No forms yet. Create one to get started.",
+    "empty": "No forms yet",
+    "emptyHint": "Start from a template or a blank draft — everything you publish shows up here.",
+    "startBlank": "Blank draft",
     "updated": "Updated"
   },
   "landing": {
