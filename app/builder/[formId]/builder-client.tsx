@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 import type { ReactNode } from "react";
 import {
   useEffect,
@@ -36,10 +37,10 @@ import {
   setOptionAtLocale,
 } from "@/lib/builder-field-locale";
 import type { BuilderForm } from "@/lib/forms";
-import { getTranslations } from "@/lib/i18n";
+import { getTranslations, parseLocale } from "@/lib/i18n";
 import { useBuilderStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
-import type { QuestionType } from "@/types/form";
+import { APP_LOCALES, type QuestionType } from "@/types/form";
 
 function fieldTypeLabel(
   t: ReturnType<typeof getTranslations>,
@@ -87,6 +88,8 @@ function AddToolButton({
 }
 
 export function BuilderClient({ initial }: { initial: BuilderForm }) {
+  const locale = useLocale();
+  const initialLocale = parseLocale(locale);
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -121,10 +124,11 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
       title: initial.title,
       description: initial.description,
       fields: initial.fields,
+      appLanguage: initialLocale,
       status: initial.status,
       slug: initial.slug,
     });
-  }, [initial, hydrate]);
+  }, [initial, hydrate, initialLocale]);
 
   useEffect(() => {
     // Client-only share URL base; no SSR value for window.location
@@ -198,7 +202,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
           slug: next.slug,
         });
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Save failed");
+        setError(e instanceof Error ? e.message : t.errors.submitFailed);
       }
     });
   }
@@ -219,7 +223,7 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
         });
         router.refresh();
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Publish failed");
+        setError(e instanceof Error ? e.message : t.errors.submitFailed);
       }
     });
   }
@@ -268,9 +272,11 @@ export function BuilderClient({ initial }: { initial: BuilderForm }) {
                 className="select-app-dark py-1.5"
                 aria-label={t.nav.language}
               >
-                <option value="en">EN</option>
-                <option value="es">ES</option>
-                <option value="hi">HI</option>
+                {APP_LOCALES.map((locale) => (
+                  <option key={locale} value={locale}>
+                    {locale.toUpperCase()}
+                  </option>
+                ))}
               </select>
               {!isPublished && (
                 <>
