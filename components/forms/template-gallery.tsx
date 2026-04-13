@@ -1,13 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { Loader2 } from "lucide-react";
+import { useLocale } from "next-intl";
+import type { ReactNode } from "react";
 import { useMemo, useState } from "react";
+import { useFormStatus } from "react-dom";
 
 import { createFormFromTemplateAction } from "@/app/actions/forms";
 import { AuthControls } from "@/components/auth/auth-controls";
 import { AppDarkSurface } from "@/components/shell/app-dark-surface";
 import { Card } from "@/components/ui/card";
-import { getTranslations } from "@/lib/i18n";
+import { getTranslations, parseLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { TEMPLATE_IDS, type TemplateId } from "@/lib/form-templates";
 import type { AppLocale } from "@/types/form";
@@ -40,6 +44,51 @@ function TemplateThumbnail({ variant }: { variant: TemplateId }) {
   );
 }
 
+function TemplateCardSubmit({
+  title,
+  creatingLabel,
+  children,
+}: {
+  title: string;
+  creatingLabel: string;
+  children: ReactNode;
+}) {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="relative w-full overflow-hidden rounded-xl text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950 disabled:cursor-wait"
+      aria-label={title}
+      aria-busy={pending}
+    >
+      <span
+        className={cn(
+          "block transition-opacity duration-200",
+          pending && "opacity-45",
+        )}
+      >
+        {children}
+      </span>
+      {pending ? (
+        <span
+          className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 bg-zinc-950/88 px-3 backdrop-blur-[3px]"
+          aria-live="polite"
+        >
+          <Loader2
+            className="size-8 animate-spin text-violet-400"
+            strokeWidth={1.75}
+            aria-hidden
+          />
+          <span className="text-center font-sans text-xs font-medium text-zinc-300">
+            {creatingLabel}
+          </span>
+        </span>
+      ) : null}
+    </button>
+  );
+}
+
 function templateCardTitle(
   t: ReturnType<typeof getTranslations>,
   id: TemplateId,
@@ -57,7 +106,8 @@ function templateCardTitle(
 }
 
 export function TemplateGallery({ showDbError }: { showDbError?: boolean }) {
-  const [lang, setLang] = useState<AppLocale>("en");
+  const locale = useLocale();
+  const [lang, setLang] = useState<AppLocale>(() => parseLocale(locale));
   const t = useMemo(() => getTranslations(lang), [lang]);
 
   return (
@@ -122,10 +172,9 @@ export function TemplateGallery({ showDbError }: { showDbError?: boolean }) {
                   className="min-w-[min(100%,14rem)] shrink-0 snap-center md:min-w-0"
                 >
                   <input type="hidden" name="templateId" value={id} />
-                  <button
-                    type="submit"
-                    className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
-                    aria-label={title}
+                  <TemplateCardSubmit
+                    title={title}
+                    creatingLabel={t.templates.creating}
                   >
                     <Card className="overflow-hidden border-white/[0.1] bg-zinc-950/70 shadow-sm shadow-black/20 transition-all duration-200 hover:border-violet-500/25 hover:shadow-lg hover:shadow-violet-950/15">
                       <TemplateThumbnail variant={id} />
@@ -133,7 +182,7 @@ export function TemplateGallery({ showDbError }: { showDbError?: boolean }) {
                         {title}
                       </div>
                     </Card>
-                  </button>
+                  </TemplateCardSubmit>
                 </form>
               );
             })}

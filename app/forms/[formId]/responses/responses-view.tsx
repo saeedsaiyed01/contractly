@@ -2,13 +2,14 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useLocale } from "next-intl";
 
 import { AuthControls } from "@/components/auth/auth-controls";
 import { CopyPublicLinkButton } from "@/components/forms/copy-public-link-button";
 import { AppDarkSurface } from "@/components/shell/app-dark-surface";
 import { buttonVariants } from "@/components/ui/button";
 import type { BuilderForm } from "@/lib/forms";
-import { getTranslations } from "@/lib/i18n";
+import { getTranslations, parseLocale } from "@/lib/i18n";
 import { pickLocalized } from "@/lib/localized";
 import { answerDisplay } from "@/lib/responses-display";
 import { cn } from "@/lib/utils";
@@ -29,7 +30,8 @@ export function ResponsesView({
   form: BuilderForm;
   rows: SubmissionRow[];
 }) {
-  const [lang, setLang] = useState<AppLocale>("en");
+  const locale = useLocale();
+  const [lang, setLang] = useState<AppLocale>(() => parseLocale(locale));
   const t = useMemo(() => getTranslations(lang), [lang]);
 
   const fieldById = useMemo(

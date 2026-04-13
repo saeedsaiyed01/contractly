@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Contractly — Multilingual forms",
-    "description": "Build and share forms in English, Arabic, French, and Spanish. One link, clear responses."
+    "title": "Contractly — Formulaires multilingues",
+    "description": "Create and share forms in English, Arabic, French, and Spanish. One link, clear responses."
   },
   "errors": {
     "database": "Database unreachable. Use a Neon postgresql:// URL in .env, run pnpm db:migrate, and restart the dev server.",
@@ -26,38 +26,38 @@
     "subtitle": "Open a form to manage, edit, or view responses.",
     "newForm": "New form",
     "empty": "No forms yet",
-    "emptyHint": "Start from a template or a blank draft — everything you publish shows up here.",
+    "emptyHint": "Start from a template or a blank draft - everything you publish shows up here.",
     "startBlank": "Blank draft",
     "updated": "Updated"
   },
   "landing": {
-    "badge": "Free · EN / AR / FR / ES",
+    "badge": "Free - EN / AR / FR / ES",
     "hero": {
       "muted1": "Create",
       "strong1": "beautiful",
-      "muted2": "multilingual forms —",
+      "muted2": "multilingual forms -",
       "strong2": "not",
       "muted3": "clunky spreadsheets."
     },
-    "sub": "One shareable link. Questions and labels in English, Arabic, French, and Spanish. No AI in your respondents' way.",
-    "heroLine2": "From a blank canvas to a live form in minutes — then watch responses land in one place.",
-    "trustStrip": "Secure sign-in · CSV & JSON export · Your own database",
+    "sub": "One shareable link. Questions and labels in English, Arabic, French, and Spanish.",
+    "heroLine2": "From a blank canvas to a live form in minutes - then watch responses land in one place.",
+    "trustStrip": "Secure sign-in - CSV and JSON export - Your own database",
     "ctaPrimary": "Get started",
     "ctaSecondary": "How it works",
     "howTitle": "How it works",
-    "howSub": "A calm path from idea to answers — no spreadsheet chaos.",
+    "howSub": "A calm path from idea to answers.",
     "steps": [
       {
         "title": "Start from a template",
-        "body": "Choose contact, RSVP, event, or a blank form — then shape it in the visual builder."
+        "body": "Choose contact, RSVP, event, or a blank form - then shape it in the visual builder."
       },
       {
-        "title": "Write in three languages",
-        "body": "Switch EN / AR / FR / ES while editing labels so every question reads naturally in each language."
+        "title": "Write in four languages",
+        "body": "Switch EN / AR / FR / ES while editing labels."
       },
       {
         "title": "Publish one link",
-        "body": "Go live with a single URL. Respondents pick their language; you stay out of their way."
+        "body": "Go live with a single URL. Respondents pick their language."
       },
       {
         "title": "Collect and export",
@@ -68,7 +68,7 @@
     "highlights": [
       {
         "title": "Field types that fit real life",
-        "body": "Text, email, numbers, dates, and multiple choice — with validation on submit."
+        "body": "Text, email, numbers, dates, and multiple choice - with validation on submit."
       },
       {
         "title": "Ownership by design",
@@ -76,22 +76,22 @@
       },
       {
         "title": "Polished dark UI",
-        "body": "Readable typography, generous spacing, and a builder that feels intentional — not generic."
+        "body": "Readable typography, generous spacing, and a builder that feels intentional."
       }
     ],
     "featuresTitle": "Why teams pick Contractly",
     "features": [
       {
         "title": "Truly multilingual",
-        "body": "App UI and field labels support EN, AR, FR, and ES so your audience picks what fits."
+        "body": "App UI and field labels support EN, AR, FR, and ES."
       },
       {
-        "title": "Free & simple",
-        "body": "Draft, publish, collect. Built for freelancers, schools, and small teams."
+        "title": "Free and simple",
+        "body": "Draft, publish, collect."
       },
       {
         "title": "You own the data",
-        "body": "Responses live in your database — export and backups when you need them."
+        "body": "Responses live in your database - export and backups when you need them."
       }
     ],
     "bottomCtaTitle": "Ready to collect clearer answers?",
@@ -99,7 +99,7 @@
     "bottomCtaButton": "Create your first form"
   },
   "footer": {
-    "tagline": "Multilingual forms with a single shareable link — built for humans, not bots.",
+    "tagline": "Multilingual forms with a single shareable link.",
     "colProduct": "Product",
     "linkCreate": "Create a form",
     "linkDashboard": "Dashboard",
@@ -122,7 +122,7 @@
     "addDate": "Date",
     "fieldLabelEn": "Label (English)",
     "fieldLabelEs": "Label (Spanish)",
-    "fieldLabelHi": "Label (Arabic/French)",
+    "fieldLabelHi": "Label (Hindi)",
     "fieldLabel": "Question",
     "switchLanguageHint": "Switch language above to edit localized text.",
     "required": "Required",
@@ -141,7 +141,7 @@
     "viewResponses": "View responses",
     "manageForm": "Manage form",
     "formDescription": "Form description",
-    "formDescriptionPlaceholder": "Optional — shown under the title on the public form",
+    "formDescriptionPlaceholder": "Optional - shown under the title on the public form",
     "tabQuestions": "Questions",
     "tabResponses": "Responses",
     "tabManage": "Manage",
@@ -160,7 +160,7 @@
   },
   "templates": {
     "sectionTitle": "Start a new form",
-    "creating": "Creating form…",
+    "creating": "Creating form...",
     "galleryHint": "Template gallery",
     "blank": "Blank form",
     "contact": "Contact information",
@@ -190,7 +190,7 @@
   "fill": {
     "submit": "Submit",
     "required": "Required",
-    "thanks": "Thanks — your response was recorded.",
+    "thanks": "Thanks - your response was recorded.",
     "notPublished": "This form is not available.",
     "pickLanguage": "Language"
   },
