@@ -12,6 +12,8 @@ jobs:
       DATABASE_URL: postgresql://ci:ci@localhost:5432/ci?sslmode=disable
       NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_placeholder
       CLERK_SECRET_KEY: sk_test_placeholder
+      # Required by lingo.dev integrations in CI jobs.
+      LINGO_API_KEY: ${{ secrets.LINGO_API_KEY }}
     steps:
       - uses: actions/checkout@v4
 
