@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
+import { useLocale } from "next-intl";
 import {
   ArrowRight,
   Download,
@@ -17,7 +18,7 @@ import {
 import { AuthControls } from "@/components/auth/auth-controls";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { getTranslations } from "@/lib/i18n";
+import { getTranslations, parseLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { AppLocale } from "@/types/form";
 import { APP_LOCALES } from "@/types/form";
@@ -26,7 +27,8 @@ const STEP_ICONS = [PenLine, Languages, Link2, Download] as const;
 
 export function HomePage() {
   const searchParams = useSearchParams();
-  const [lang, setLang] = useState<AppLocale>("en");
+  const locale = useLocale();
+  const [lang, setLang] = useState<AppLocale>(() => parseLocale(locale));
   const t = useMemo(() => getTranslations(lang), [lang]);
   const showDbError = searchParams.get("error") === "database";
   const year = 2026;

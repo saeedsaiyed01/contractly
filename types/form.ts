@@ -1,6 +1,6 @@
-export type AppLocale = "en" | "es" | "hi";
+export type AppLocale = "en" | "ar" | "fr" | "es";
 
-export const APP_LOCALES: AppLocale[] = ["en", "es", "hi"];
+export const APP_LOCALES: AppLocale[] = ["en", "ar", "fr", "es"];
 
 export type QuestionType =
   | "short_text"
@@ -15,8 +15,9 @@ export type FormStatus = "draft" | "published";
 /** At least English; other locales optional */
 export type LocalizedString = {
   en: string;
+  ar?: string;
+  fr?: string;
   es?: string;
-  hi?: string;
 };
 
 export type FormFieldDraft = {

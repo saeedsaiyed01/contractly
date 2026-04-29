@@ -1,10 +1,19 @@
 {
   "meta": {
     "title": "Contractly — Formularios multilingües",
-    "description": "Crea y comparte formularios en inglés, español e hindi. Un enlace, respuestas claras."
+    "description": "Crea y comparte formularios en ingles, arabe, frances y espanol. Un enlace, respuestas claras."
   },
   "errors": {
-    "database": "No se puede conectar a la base de datos. Usa una URL postgresql:// de Neon en .env, ejecuta pnpm db:migrate y reinicia el servidor de desarrollo."
+    "database": "No se puede conectar a la base de datos. Usa una URL postgresql:// de Neon en .env, ejecuta pnpm db:migrate y reinicia el servidor de desarrollo.",
+    "submitFailed": "Error al enviar",
+    "tooManySubmissions": "Demasiados envios. Vuelve a intentarlo en un minuto."
+  },
+  "validation": {
+    "formNotAvailable": "Este formulario no esta disponible.",
+    "invalidField": "Campo invalido en el envio.",
+    "missingRequiredAnswer": "Completa todas las preguntas obligatorias.",
+    "invalidChoice": "Una o mas opciones seleccionadas no son validas.",
+    "invalidFieldValue": "Una o mas respuestas no son validas."
   },
   "nav": {
     "brand": "Contractly",
@@ -22,7 +31,7 @@
     "updated": "Actualizado"
   },
   "landing": {
-    "badge": "Gratis · EN / ES / HI",
+    "badge": "Gratis · EN / AR / FR / ES",
     "hero": {
       "muted1": "Crea",
       "strong1": "formularios multilingües",
@@ -30,7 +39,7 @@
       "strong2": "bonitos",
       "muted3": ", no hojas de cálculo torpes."
     },
-    "sub": "Un enlace para compartir. Preguntas y etiquetas en inglés, español e hindi. Sin IA en el camino de quien responde.",
+    "sub": "Un enlace para compartir. Preguntas y etiquetas en ingles, arabe, frances y espanol. Sin IA en el camino de quien responde.",
     "heroLine2": "De un lienzo vacío a un formulario en vivo en minutos — y las respuestas en un solo sitio.",
     "trustStrip": "Acceso seguro · Exportar CSV y JSON · Tu propia base de datos",
     "ctaPrimary": "Empezar",
@@ -44,7 +53,7 @@
       },
       {
         "title": "Escribe en tres idiomas",
-        "body": "Cambia EN / ES / HI al editar etiquetas para que cada pregunta suene natural."
+        "body": "Cambia EN / AR / FR / ES al editar etiquetas para que cada pregunta suene natural."
       },
       {
         "title": "Publica un solo enlace",
@@ -74,7 +83,7 @@
     "features": [
       {
         "title": "De verdad multilingüe",
-        "body": "La interfaz y las etiquetas admiten EN, ES e HI para que cada persona elija su idioma."
+        "body": "La interfaz y las etiquetas admiten EN, AR, FR y ES para que cada persona elija su idioma."
       },
       {
         "title": "Gratis y simple",
@@ -113,9 +122,9 @@
     "addDate": "Fecha",
     "fieldLabelEn": "Etiqueta (inglés)",
     "fieldLabelEs": "Etiqueta (español)",
-    "fieldLabelHi": "Etiqueta (hindi)",
+    "fieldLabelHi": "Etiqueta (arabe/frances)",
     "fieldLabel": "Pregunta",
-    "switchLanguageHint": "Cambia el idioma arriba para editar español o hindi.",
+    "switchLanguageHint": "Cambia el idioma arriba para editar el texto localizado.",
     "required": "Obligatorio",
     "publish": "Publicar",
     "saveDraft": "Guardar borrador",
@@ -125,7 +134,7 @@
     "addOption": "Añadir opción",
     "optionsHeading": "Opciones de respuesta",
     "openPublicForm": "Abrir formulario público",
-    "optionLangHint": "Cambia el idioma arriba para editar español o hindi.",
+    "optionLangHint": "Cambia el idioma arriba para editar el texto localizado.",
     "publishedBadge": "Publicado",
     "copyPublicLink": "Copiar enlace público",
     "copied": "Copiado",
@@ -151,6 +160,7 @@
   },
   "templates": {
     "sectionTitle": "Crear un formulario nuevo",
+    "creating": "Creando formulario…",
     "galleryHint": "Galería de plantillas",
     "blank": "Formulario en blanco",
     "contact": "Información de contacto",

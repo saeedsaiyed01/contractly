@@ -2,6 +2,7 @@
 
 import { useMemo, useState, useTransition } from "react";
 import { CheckCircle2 } from "lucide-react";
+import { useLocale } from "next-intl";
 
 import { submitFormAction } from "@/app/actions/forms";
 import { AppDarkSurface } from "@/components/shell/app-dark-surface";
@@ -9,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { BuilderForm } from "@/lib/forms";
-import { getTranslations } from "@/lib/i18n";
+import { getTranslations, parseLocale } from "@/lib/i18n";
 import { pickLocalized } from "@/lib/localized";
 import type { AppLocale } from "@/types/form";
 import { APP_LOCALES } from "@/types/form";
@@ -26,7 +27,8 @@ const textareaClass = cn(
 );
 
 export function FillForm({ form }: { form: BuilderForm }) {
-  const [lang, setLang] = useState<AppLocale>("en");
+  const locale = useLocale();
+  const [lang, setLang] = useState<AppLocale>(() => parseLocale(locale));
   const [answers, setAnswers] = useState<Record<string, string | number>>({});
   const [honeypot, setHoneypot] = useState("");
   const [done, setDone] = useState(false);
@@ -55,7 +57,11 @@ export function FillForm({ form }: { form: BuilderForm }) {
         });
         setDone(true);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Submit failed");
+        if (e instanceof Error && e.message === "errors.tooManySubmissions") {
+          setError(t.errors.tooManySubmissions);
+          return;
+        }
+        setError(t.errors.submitFailed);
       }
     });
   }
@@ -83,7 +89,10 @@ export function FillForm({ form }: { form: BuilderForm }) {
 
   return (
     <AppDarkSurface>
-      <div className="mx-auto max-w-lg px-4 py-12 sm:py-16">
+      <div
+        className="mx-auto max-w-lg px-4 py-12 sm:py-16"
+        dir={lang === "ar" ? "rtl" : "ltr"}
+      >
         <div className="mb-10 flex flex-wrap items-start justify-between gap-4 border-b border-white/8 pb-8">
           <div className="min-w-0 flex-1">
             <h1 className="font-serif text-2xl tracking-tight text-white sm:text-[1.75rem]">

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useTransition } from "react";
+import { useLocale } from "next-intl";
 
 import {
   deleteFormAction,
@@ -14,7 +15,7 @@ import { CopyPublicLinkButton } from "@/components/forms/copy-public-link-button
 import { AppDarkSurface } from "@/components/shell/app-dark-surface";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { getTranslations } from "@/lib/i18n";
+import { getTranslations, parseLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { AppLocale } from "@/types/form";
 import { APP_LOCALES } from "@/types/form";
@@ -35,7 +36,8 @@ export function ManageFormClient({
   submissionCount: number;
   lastSubmissionIso: string | null;
 }) {
-  const [lang, setLang] = useState<AppLocale>("en");
+  const locale = useLocale();
+  const [lang, setLang] = useState<AppLocale>(() => parseLocale(locale));
   const t = useMemo(() => getTranslations(lang), [lang]);
   const router = useRouter();
   const [pending, startTransition] = useTransition();

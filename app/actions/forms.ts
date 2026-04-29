@@ -10,6 +10,7 @@ import { consumeSubmitRateToken } from "@/lib/rate-limit";
 import type { FormFieldDraft, LocalizedString } from "@/types/form";
 import {
   createDraftForm,
+  createFormFromTemplate,
   deleteForm,
   duplicateForm,
   publishForm,
@@ -18,11 +19,7 @@ import {
   unpublishForm,
 } from "@/lib/forms";
 import type { BuilderForm } from "@/lib/forms";
-import {
-  getDefaultFormTitle,
-  getTemplateFields,
-  isTemplateId,
-} from "@/lib/form-templates";
+import { isTemplateId } from "@/lib/form-templates";
 
 async function requireUserId(): Promise<string> {
   const { userId } = await auth();
@@ -61,18 +58,13 @@ export async function createFormFromTemplateAction(formData: FormData) {
     redirect("/forms/new");
   }
 
-  const form = await createDraftForm(userId).catch((err) => {
+  const form = await createFormFromTemplate(userId, templateId).catch((err) => {
     console.error("[createFormFromTemplateAction]", err);
     return null;
   });
   if (!form) {
     redirect("/forms/new?error=database");
   }
-
-  const title = getDefaultFormTitle(templateId);
-  const fields = getTemplateFields(templateId);
-  const emptyDescription: LocalizedString = { en: "" };
-  await saveDraftForm(userId, form.id, title, emptyDescription, fields);
   redirect(`/builder/${form.id}`);
 }
 
@@ -129,7 +121,7 @@ export async function submitFormAction(input: {
   _website?: string;
 }) {
   if (input._website != null && String(input._website).trim() !== "") {
-    throw new Error("Submission failed");
+    throw new Error("errors.submitFailed");
   }
 
   const h = await headers();
@@ -140,7 +132,7 @@ export async function submitFormAction(input: {
     "unknown";
   const rateKey = `${input.formId}:${ip}`;
   if (!consumeSubmitRateToken(rateKey)) {
-    throw new Error("Too many submissions. Try again in a minute.");
+    throw new Error("errors.tooManySubmissions");
   }
 
   await submitResponse({
@@ -148,8 +140,9 @@ export async function submitFormAction(input: {
     answers: input.answers,
     respondentLocale:
       input.respondentLocale === "en" ||
-      input.respondentLocale === "es" ||
-      input.respondentLocale === "hi"
+      input.respondentLocale === "ar" ||
+      input.respondentLocale === "fr" ||
+      input.respondentLocale === "es"
         ? input.respondentLocale
         : null,
   });

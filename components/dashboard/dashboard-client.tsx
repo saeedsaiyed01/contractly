@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ChevronRight, Sparkles } from "lucide-react";
+import { useLocale } from "next-intl";
 
 import { AuthControls } from "@/components/auth/auth-controls";
 import { AppDarkSurface } from "@/components/shell/app-dark-surface";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { getTranslations } from "@/lib/i18n";
+import { getTranslations, parseLocale } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import type { AppLocale } from "@/types/form";
 import { APP_LOCALES } from "@/types/form";
@@ -23,7 +24,8 @@ export type DashboardFormRow = {
 };
 
 export function DashboardClient({ rows }: { rows: DashboardFormRow[] }) {
-  const [lang, setLang] = useState<AppLocale>("en");
+  const locale = useLocale();
+  const [lang, setLang] = useState<AppLocale>(() => parseLocale(locale));
   const t = useMemo(() => getTranslations(lang), [lang]);
 
   return (

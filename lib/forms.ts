@@ -1,6 +1,11 @@
 import { Prisma } from "@/app/generated/prisma/client";
 import { nanoid } from "nanoid";
 
+import {
+  getDefaultFormTitle,
+  getTemplateFields,
+  type TemplateId,
+} from "@/lib/form-templates";
 import type { AppLocale } from "@/types/form";
 import type { FormFieldDraft, LocalizedString, QuestionType } from "@/types/form";
 import { db } from "@/lib/db";
@@ -23,8 +28,9 @@ function parseDescriptionJson(
   const o = value as Record<string, unknown>;
   return {
     en: typeof o.en === "string" ? o.en : "",
+    ...(typeof o.ar === "string" && o.ar !== "" ? { ar: o.ar } : {}),
+    ...(typeof o.fr === "string" && o.fr !== "" ? { fr: o.fr } : {}),
     ...(typeof o.es === "string" && o.es !== "" ? { es: o.es } : {}),
-    ...(typeof o.hi === "string" && o.hi !== "" ? { hi: o.hi } : {}),
   };
 }
 
@@ -88,6 +94,39 @@ export async function createDraftForm(ownerId: string) {
   return db.form.create({
     data: { title: "Untitled form", status: "draft", ownerId },
   });
+}
+
+/** One create call with nested fields; avoids interactive transaction start timeouts. */
+export async function createFormFromTemplate(
+  ownerId: string,
+  templateId: TemplateId,
+): Promise<{ id: string }> {
+  const title = getDefaultFormTitle(templateId);
+  const fields = getTemplateFields(templateId);
+  const emptyDescription: LocalizedString = { en: "" };
+
+  const form = await db.form.create({
+    data: {
+      title,
+      status: "draft",
+      ownerId,
+      descriptionJson: toPrismaJsonInput(emptyDescription),
+      fields: {
+        create: fields.map((f) => ({
+          sortOrder: f.sortOrder,
+          type: f.type,
+          required: f.required,
+          labelJson: toPrismaJsonInput(f.label),
+          optionsJson:
+            f.options && f.options.length > 0
+              ? toPrismaJsonInput(f.options)
+              : Prisma.JsonNull,
+        })),
+      },
+    },
+    select: { id: true },
+  });
+  return form;
 }
 
 export type FormListRow = {
@@ -262,12 +301,12 @@ export async function submitResponse(input: {
     where: { id: input.formId, status: "published" },
     include: { fields: true },
   });
-  if (!form) throw new Error("Form not available");
+  if (!form) throw new Error("validation.formNotAvailable");
 
   const fieldIds = new Set(form.fields.map((f) => f.id));
   for (const key of Object.keys(input.answers)) {
     if (!fieldIds.has(key)) {
-      throw new Error("Invalid field in submission");
+      throw new Error("validation.invalidField");
     }
   }
 
@@ -278,25 +317,25 @@ export async function submitResponse(input: {
     const v = input.answers[field.id];
     if (field.type === "multiple_choice") {
       if (typeof v !== "number" || v < 0 || !Number.isInteger(v)) {
-        throw new Error(`Missing answer for field ${field.id}`);
+        throw new Error("validation.missingRequiredAnswer");
       }
       const raw = field.optionsJson;
       const len = Array.isArray(raw) ? raw.length : 0;
       if (len === 0 || v >= len) {
-        throw new Error(`Invalid choice for field ${field.id}`);
+        throw new Error("validation.invalidChoice");
       }
     } else if (field.type === "number") {
       const n = typeof v === "number" ? v : Number(v);
       if (!Number.isFinite(n)) {
-        throw new Error(`Missing answer for field ${field.id}`);
+        throw new Error("validation.missingRequiredAnswer");
       }
     } else if (field.type === "date") {
       if (typeof v !== "string" || !isoDateRe.test(v.trim())) {
-        throw new Error(`Missing answer for field ${field.id}`);
+        throw new Error("validation.missingRequiredAnswer");
       }
     } else {
       if (typeof v !== "string" || v.trim() === "") {
-        throw new Error(`Missing answer for field ${field.id}`);
+        throw new Error("validation.missingRequiredAnswer");
       }
     }
   }
@@ -316,20 +355,20 @@ export async function submitResponse(input: {
     if (field.type === "number") {
       const n = typeof v === "number" ? v : Number(v);
       if (!Number.isFinite(n)) {
-        throw new Error("Invalid field value");
+        throw new Error("validation.invalidFieldValue");
       }
       cleaned[field.id] = n;
     } else if (field.type === "date") {
       if (typeof v !== "string" || !isoDateRe.test(v.trim())) {
-        throw new Error("Invalid field value");
+        throw new Error("validation.invalidFieldValue");
       }
     } else if (field.type === "multiple_choice") {
       if (typeof v !== "number" || v < 0 || !Number.isInteger(v)) {
-        throw new Error("Invalid field value");
+        throw new Error("validation.invalidFieldValue");
       }
       const raw = field.optionsJson;
       const len = Array.isArray(raw) ? raw.length : 0;
-      if (v >= len) throw new Error("Invalid field value");
+      if (v >= len) throw new Error("validation.invalidFieldValue");
     }
   }
 

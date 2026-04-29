@@ -1,16 +1,18 @@
 import type { AppLocale } from "@/types/form";
 import { APP_LOCALES } from "@/types/form";
 
+import ar from "@/locales/ar.json";
 import en from "@/locales/en.json";
 import es from "@/locales/es.json";
-import hi from "@/locales/hi.json";
+import fr from "@/locales/fr.json";
 
 export type Translations = typeof en;
 
 const locales: Record<AppLocale, Translations> = {
+  ar,
   en,
   es,
-  hi,
+  fr,
 };
 
 export function getTranslations(lang: AppLocale): Translations {
