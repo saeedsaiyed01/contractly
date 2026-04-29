@@ -58,6 +58,17 @@ export function ResponsesView({
   return (
     <AppDarkSurface>
       <div className="relative mx-auto max-w-3xl px-4 py-10 sm:py-12">
+        <div className="mb-5">
+          <Link
+            href={`/builder/${form.id}`}
+            className={cn(
+              buttonVariants({ variant: "secondary", size: "sm" }),
+              "bg-white text-zinc-950 hover:bg-zinc-100",
+            )}
+          >
+            {`\u2190 ${t.responses.back}`}
+          </Link>
+        </div>
         <div className="mb-10 flex flex-wrap items-start justify-between gap-4 border-b border-white/[0.08] pb-8">
           <div>
             <h1 className="font-serif text-2xl tracking-tight text-white md:text-3xl">
@@ -111,7 +122,7 @@ export function ResponsesView({
                 href={`/builder/${form.id}`}
                 className={cn(
                   buttonVariants({ variant: "outline", size: "sm" }),
-                  "border-white/15 bg-zinc-950/80 text-zinc-100",
+                  "border-white/15 bg-zinc-950/80 text-zinc-400 hover:text-zinc-100",
                 )}
               >
                 {t.responses.back}
